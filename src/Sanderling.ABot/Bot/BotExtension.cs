@@ -43,10 +43,20 @@ namespace Sanderling.ABot.Bot
 			?.OrderBy(subsequenceTaskPath => 1 == subsequenceTaskPath?.Count(BotExtension.LastHasMotion))
 			?.LastOrDefault();
 
-		static public IUIElementText TitleElementText(this IModuleButtonTooltip tooltip) =>
-			tooltip?.LabelText?.OrderByCenterVerticalDown()?.FirstOrDefault();
+        static public IUIElementText TitleElementText(this IModuleButtonTooltip tooltip)
+        {
+            var tooltipHorizontalCenter = tooltip?.RegionCenter()?.A;
 
-		static public bool ShouldBeActivePermanent(this Accumulation.IShipUiModule module, Bot bot) =>
+            var setLabelIntersectingHorizontalCenter =
+                tooltip?.LabelText
+                ?.Where(label => label?.Region.Min0 < tooltipHorizontalCenter && tooltipHorizontalCenter < label?.Region.Max0);
+
+            return
+                setLabelIntersectingHorizontalCenter
+                ?.OrderByCenterVerticalDown()?.FirstOrDefault();
+        }
+
+        static public bool ShouldBeActivePermanent(this Accumulation.IShipUiModule module, Bot bot) =>
 			new[]
 			{
 				module?.TooltipLast?.Value?.IsHardener,
