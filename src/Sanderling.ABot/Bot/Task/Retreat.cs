@@ -17,7 +17,10 @@ namespace Sanderling.ABot.Bot.Task
 				if (!memoryMeasurement.ManeuverStartPossible())
 					yield break;
 
-				var retreatBookmark = Bot?.ConfigSerialAndStruct.Value?.RetreatBookmark;
+                //if speed<30% then increase speed to maximum
+                //wair fighters
+
+                var retreatBookmark = Bot?.ConfigSerialAndStruct.Value?.RetreatBookmark;
 
 				yield return new MenuPathTask
 				{
